@@ -16,6 +16,12 @@ const transactionRoutes=require("./routes/transaction.route");
 /**
  * - mount APIs
  */
+
+app.get("/",(req,res)=>{
+    res.send(`<h1>Welcome to the Backend Ledger Service</h1>
+              <h2>Server is running successfully</h2>`);
+});
+
 app.use("/api/auth",authRoutes);
 app.use("/api/accounts",accountRoutes);
 app.use("/api/transactions",transactionRoutes);
