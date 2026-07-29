@@ -43,7 +43,7 @@ exports.createTransaction= async (req,res)=>{
 
     const toUserAccount = await accountModel.findOne({
         _id: toAccount,
-    })
+    }).populate("user");
 
     if (!fromUserAccount || !toUserAccount) {
         return res.status(400).json({
@@ -51,6 +51,12 @@ exports.createTransaction= async (req,res)=>{
         })
     }
 
+    // Prevent transaction to admin account
+        if (toUserAccount.user.role === "ADMIN") {
+            return res.status(403).json({
+                message: "Cannot transaction to admin."
+            });
+        }
     if(fromUserAccount.user.toString() !== req.user._id.toString()) {
          return res.status(403).json({
          message: "You are not authorized to use this account"

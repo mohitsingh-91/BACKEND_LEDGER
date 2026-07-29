@@ -1,6 +1,6 @@
 const userModel=require("../models/user.model");
 const jwt=require("jsonwebtoken");
-const sendRegistrationEmail=require("../services/email.service");
+const {sendRegistrationEmail}=require("../services/email.service");
 const tokenBlackListModel=require("../models/blankList.model");
 require("dotenv").config();
 
@@ -34,11 +34,15 @@ exports.userRegister=async(req,res)=>{
             name:user.name,
         }
     })
+    try{
+        // send a email for registration successfully
+        await sendRegistrationEmail(user.email,user.name);
+    }catch (emailError) {
+         console.error("Failed to send failure email:", emailError);
 
-    // send a email for registration successfully
-    await sendRegistrationEmail(user.email,user.name);
-
-    }catch(err){
+    }
+    }
+    catch(err){
         console.error(err);
         res.status(400).json({
             success:false,

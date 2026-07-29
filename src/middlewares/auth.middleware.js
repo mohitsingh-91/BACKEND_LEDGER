@@ -51,7 +51,7 @@ async function authUserMiddleware(req,res,next){
         const user=await userModel.findById(payload.user_Id);
         if(user.role!=="USER"){
             return res.status(403).json({
-                message:"Forbidden access, not a system user"
+                message:"Forbidden access, not a User"
             })
         }
         req.user=user;
@@ -83,7 +83,7 @@ async function authAdminUserMiddleware(req,res,next){
         const user=await userModel.findById(payload.user_Id);
         if(user.role!=="ADMIN"){
             return res.status(403).json({
-                message:"Forbidden access, not a system user"
+                message:"Forbidden access, not a Admin"
             })
         }
         req.user=user;
